@@ -31,6 +31,38 @@ angular.module('starter', ['ionic', 'starter.services', 'starter.controllers'])
           templateUrl: 'templates/pet-index.html',
           controller: 'PetIndexCtrl'
         }
+      },
+      onEnter: function(){
+        var defaultLatLng = new google.maps.LatLng(34.0983425, -118.3267434);  // Default to Hollywood, CA when no geolocation support
+        if ( navigator.geolocation ) {
+            function success(pos) {
+                // Location found, show map with these coordinates
+
+                var myOptions = {
+                    zoom: 10,
+                    center: new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude),
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                };
+                var map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);
+            }
+            function fail(error) {
+                var myOptions = {
+                    zoom: 10,
+                    center: defaultLatLng,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                };
+                var map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);
+            }
+            // Find the users current position.  Cache the location for 5 minutes, timeout after 6 seconds
+            navigator.geolocation.getCurrentPosition(success, fail, {maximumAge: 500000, enableHighAccuracy:true, timeout: 6000});
+        } else {
+            var myOptions = {
+                    zoom: 10,
+                    center: defaultLatLng,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                };
+                var map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);
+        }
       }
     })
 

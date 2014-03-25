@@ -33,7 +33,6 @@ angular.module('starter.controllers', [])
             center: latlng,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
-        debugger
         var map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);
         // Add an overlay to the map of current lat/lng
         var marker = new google.maps.Marker({
